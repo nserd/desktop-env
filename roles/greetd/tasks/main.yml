@@ -1,0 +1,48 @@
+---
+
+- name: Install
+  dnf:
+    name: greetd
+    state: present
+  become: true
+
+- name: Build and Install tuigreet
+  block:
+  - name: Clone tuigreet repository
+    git:
+      repo: https://github.com/apognu/tuigreet.git
+      version: "{{ tuigreet_version }}"
+      dest: /tmp/tuigreet
+
+  - name: Build tuigreet
+    command: 
+      cmd: cargo build --release
+      chdir: /tmp/tuigreet
+      creates: target/release/tuigreet
+    when: not ansible_check_mode
+
+  - stat: "path=/tmp/tuigreet/target/release/tuigreet"
+    register: tuigreet_binary
+
+  - name: Install tuigreet
+    command: 
+      cmd: mv /tmp/tuigreet/target/release/tuigreet /usr/local/bin/tuigreet
+      creates: /usr/local/bin/tuigreet
+    become: true
+    when: tuigreet_binary.stat.exists
+
+  - name: Create cahce dir
+    file:
+      path: /var/cache/tuigreet
+      state: directory
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      mode: '0755'
+    become: true
+
+- name: Add greetd config
+  template:
+    src: files/config.toml
+    dest: /etc/greetd/config.toml
+  become: true
+  notify: Restart service

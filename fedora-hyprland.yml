@@ -11,6 +11,7 @@
         - bind-utils
         - cronie
         - xclip
+        - cargo # for build from source
       additional:
         - bash-completion
         - vim
@@ -122,7 +123,11 @@
       notify: User directories update
 
   roles:
+    - role: greetd
+      tags: [greetd]
+
     - role: hyprland
+      tags: [hyprland]
 
     - role: bash
       tags: [bash]

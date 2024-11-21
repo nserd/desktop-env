@@ -2,10 +2,13 @@
 - include_role:
     name: 0-common
   vars:
-    package: hyprland-devel
+    packages: 
+      - hyprland-devel
+      - hyprlock
     config_dir_name: hypr
     config_files:
       - hyprland.conf
+      - hyprlock.conf
 
 - name: Install hyprshot
   vars: 
