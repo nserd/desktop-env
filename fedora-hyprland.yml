@@ -119,6 +119,7 @@
               {{ dir.name }}="$HOME/{{ dir.value }}"
               {% endfor %}
             dest: ~/.config/user-dirs.dirs
+      notify: User directories update
 
   roles:
     - role: hyprland
@@ -158,3 +159,7 @@
       loop: "{{ fedora_packages.additional }}"
       become: true
       tags: [additional-packages]
+
+  handlers:
+    - name: User directories update
+      command: xdg-user-dirs-update
