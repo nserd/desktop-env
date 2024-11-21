@@ -1,0 +1,14 @@
+---
+- name: Add files
+  block:
+  - name: Add script
+    template:
+      src: "files/synclip"
+      dest: "{{ script_fullpath }}/synclip"
+      mode: u=rwx,g=rx,o=
+
+  - name: Add unit file
+    template:
+      src: "files/synclip.service"
+      dest: "~/.config/systemd/user/synclip.service"
+  notify: Restart service

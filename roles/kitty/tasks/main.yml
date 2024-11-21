@@ -1,0 +1,6 @@
+---
+- include_role:
+    name: 0-common
+  vars:
+    config_files:
+      - kitty.conf

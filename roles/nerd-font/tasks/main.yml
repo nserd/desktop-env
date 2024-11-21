@@ -1,0 +1,7 @@
+---
+- name: Download font
+  unarchive:
+    src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v{{ font_version }}/{{ font_name }}.zip"
+    dest: ~/.local/share/fonts/{{ font_name }}Nerd
+    remote_src: yes
+  notify: Build font information caches

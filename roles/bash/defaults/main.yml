@@ -1,0 +1,2 @@
+bashrc_global: /etc/bashrc
+bashrc_user_dir: ~/.bashrc.d

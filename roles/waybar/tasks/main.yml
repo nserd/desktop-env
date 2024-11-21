@@ -1,0 +1,20 @@
+---
+- include_role:
+    name: 0-common
+  vars:
+    config_files:
+      - config.jsonc
+      - style.css
+
+- name: Add wrapper
+  template:
+    src: "files/waybarw"
+    dest: "~/.local/bin/waybarw"
+
+- name: Add symlink on wrapper
+  file:
+    src: "~/.local/bin/waybarw"
+    dest: "/usr/bin/waybarw"
+    state: link
+  become: true
+  when: not ansible_check_mode

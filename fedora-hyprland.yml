@@ -1,0 +1,152 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    user: "{{ ansible_user_id }}"
+    fedora_packages:
+      required:
+        - python3-libdnf5
+        - rsync
+        - unzip
+        - bind-utils
+        - cronie
+        - xclip
+      additional:
+        - bash-completion
+        - vim
+        - htop
+        - wget
+        - glibc-langpack-ru
+        - tar
+        - tree
+        - nmap
+        - telnet
+        - keepassxc
+        - rclone
+        - openssl
+        - cryptsetup
+        - openconnect
+        - ImageMagick
+        - ffmpeg
+        - pwgen
+        - vlc
+        - shotwell
+        - gimp
+        - chromium
+        - yq
+        - jq
+      to_remove:
+        - "@gnome-desktop"
+        - "@libreoffice"
+        - libreoffice-*
+        - wofi
+
+  pre_tasks:
+    - name: Check GNOME
+      fail:
+        msg: GNOME environment detected. You need to switch to TTY to continue
+      when: lookup('ansible.builtin.env', 'XDG_CURRENT_DESKTOP') == 'GNOME'
+  
+    - name: DNS
+      block:
+        - name: Disable systemd-resolved
+          systemd:
+            name: systemd-resolved
+            state: stopped
+            enabled: false
+        - name: Copy resolv.conf
+          copy:
+            content: |
+              nameserver 1.1.1.1 # Cloudflare
+              nameserver 8.8.8.8 # Google
+            dest: /etc/resolv.conf
+      become: true
+
+    - name: Packages
+      block:
+        - name: Remove extra packages
+          package:
+            name: "{{ item }}"
+            state: absent
+          loop: "{{ fedora_packages.to_remove }}"
+
+        - name: Install required packages
+          package:
+            name: "{{ item }}"
+            state: present
+          loop: "{{ fedora_packages.required }}"
+      become: true
+
+    - name: Keychrone fix
+      ansible.builtin.cron:
+        name: "Keychrone fix"
+        job: "echo 0 > /sys/module/hid_apple/parameters/fnmode"
+      become: true
+
+    - name: Enable rpmfusion
+      dnf:
+        name:
+          - "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm"
+          - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm"
+        state: present
+        disable_gpg_check: true
+      become: true
+    
+    - name: Setup user directories
+      copy:
+        content: |
+          # This file is written by xdg-user-dirs-update
+          # If you want to change or add directories, just edit the line you're
+          # interested in. All local changes will be retained on the next run.
+          # Format is XDG_xxx_DIR="$HOME/yyy", where yyy is a shell-escaped
+          # homedir-relative path, or XDG_xxx_DIR="/yyy", where /yyy is an
+          # absolute path. No other format is supported.
+
+          XDG_DESKTOP_DIR="$HOME/desktop"
+          XDG_DOWNLOAD_DIR="$HOME/downloads"
+          XDG_TEMPLATES_DIR="$HOME/templates"
+          XDG_PUBLICSHARE_DIR="$HOME/public"
+          XDG_DOCUMENTS_DIR="$HOME/notes"
+          XDG_MUSIC_DIR="$HOME/music"
+          XDG_PICTURES_DIR="$HOME/pictures"
+          XDG_VIDEOS_DIR="$HOME/videos"
+        dest: ~/.config/user-dirs.dirs
+
+  roles:
+    - role: hyprland
+
+    - role: bash
+      tags: [bash]
+
+    - role: kitty
+      tags: [kitty]
+
+    - role: flatpak
+      tags: [flatpak]
+
+    - role: nerd-font
+      tags: [nerd-font]
+
+    - role: waybar
+      tags: [waybar]
+
+    - role: swaync
+      tags: [swaync]
+
+    - role: rofi
+      tags: [rofi]
+
+    - role: synclip
+      tags: [synclip]
+
+    - role: vscode
+      tags: [vscode]
+
+  tasks:
+    - name: Install additional packages
+      dnf:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ additional_packages }}"
+      become: true
+      tags: [additional-packages]

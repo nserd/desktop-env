@@ -1,0 +1,5 @@
+default_flatpak_packages:
+  - io.typora.Typora
+  - org.gnome.World.PikaBackup
+  - org.telegram.desktop
+  - org.onlyoffice.desktopeditors

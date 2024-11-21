@@ -1,0 +1,14 @@
+---
+- name: Enable repo
+  community.general.copr:
+    name: erikreider/SwayNotificationCenter
+  become: true
+
+- include_role:
+    name: 0-common
+  vars:
+    package: SwayNotificationCenter
+    config_files:
+      - config.json
+      - configSchema.json
+      - style.css

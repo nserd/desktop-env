@@ -1,0 +1,2 @@
+description: Clipboard syncronization between Wayland and X11
+script_fullpath: "/home/{{ user }}/.local/bin"

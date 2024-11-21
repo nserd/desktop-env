@@ -1,0 +1,8 @@
+---
+- include_role:
+    name: 0-common
+  vars:
+    package: rofi-wayland
+    config_files:
+      - config.rasi
+      - theme.rasi

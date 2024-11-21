@@ -1,0 +1,10 @@
+[Unit]
+Description={{ description }}
+
+[Service]
+Environment=PYTHONUNBUFFERED=1
+ExecStart={{ script_fullpath }}/synclip
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

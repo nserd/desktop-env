@@ -1,0 +1,12 @@
+#!/bin/bash
+# This wrapper is needed to be able to set the monitor for output as a parameter.
+
+WAYBAR_CONFIG=~/.config/waybar/config.jsonc
+OUTPUT_LINE="    \"output\": "
+CURRENT_OUTPUT=$(grep "^$OUTPUT_LINE" $WAYBAR_CONFIG | awk '{print $2}' | tr -d '",')
+
+[ -z "$1" ] && OUTPUT=$(wlr-randr --json | jq .[].name -r | grep eDP | head -1) || OUTPUT=$1
+[ "$CURRENT_OUTPUT" ] && sed -i "s#^$OUTPUT_LINE\"$CURRENT_OUTPUT\"#$OUTPUT_LINE\"$OUTPUT\"#g" $WAYBAR_CONFIG
+
+shift
+waybar --config $WAYBAR_CONFIG "$@"

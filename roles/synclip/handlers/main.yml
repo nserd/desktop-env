@@ -1,0 +1,8 @@
+- name: Restart service
+  systemd_service:
+    name: synclip
+    scope: user
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  when: not ansible_check_mode

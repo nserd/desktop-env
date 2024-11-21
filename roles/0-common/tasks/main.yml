@@ -1,0 +1,20 @@
+- name: Install
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ packages }}"
+  become: true
+  when: packages_install
+
+- name: Add configs
+  block:
+    - name: Ensure config dir exist ({{ config_dir }})
+      file:
+        path: "{{ config_dir }}"
+        state: directory
+    - name: Copy config file(s)
+      template:
+        src: "files/{{ item }}"
+        dest: "{{ config_dir }}/{{ item }}"
+      loop: "{{ config_files }}"
+  when: config_files | length > 0

@@ -1,0 +1,8 @@
+component_name: "{{ ansible_parent_role_paths[0].split('/') | last }}"
+
+config_dir_name: "{{ component_name }}"
+config_dir: "~/.config/{{ config_dir_name }}"
+config_files: []
+
+packages: ["{{ package | default(component_name) }}"]
+packages_install: true
