@@ -7,3 +7,4 @@
     ```
 3. Go to TTY
 4. Run ansible playbook
+5. Reboot after completing playbook
