@@ -98,7 +98,6 @@
           - { name: XDG_DESKTOP_DIR, value: desktop }
           - { name: XDG_DOWNLOAD_DIR, value: downloads }
           - { name: XDG_TEMPLATES_DIR, value: templates }
-          - { name: XDG_PUBLICSHARE_DIR, value: public }
           - { name: XDG_DOCUMENTS_DIR, value: notes }
           - { name: XDG_PICTURES_DIR, value: pictures }
       block:
