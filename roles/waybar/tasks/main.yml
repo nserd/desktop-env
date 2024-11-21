@@ -13,7 +13,7 @@
 
 - name: Add symlink on wrapper
   file:
-    src: "~/.local/bin/waybarw"
+    src: "/home/{{ user }}/.local/bin/waybarw"
     dest: "/usr/bin/waybarw"
     state: link
   become: true
