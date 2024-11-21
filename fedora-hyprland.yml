@@ -93,20 +93,20 @@
       become: true
 
     - name: Setup user directories
+      vars:
+        user_directories:
+          - { name: XDG_DESKTOP_DIR, value: desktop }
+          - { name: XDG_DOWNLOAD_DIR, value: downloads }
+          - { name: XDG_TEMPLATES_DIR, value: templates }
+          - { name: XDG_PUBLICSHARE_DIR, value: public }
+          - { name: XDG_DOCUMENTS_DIR, value: notes }
+          - { name: XDG_PICTURES_DIR, value: pictures }
       block:
         - name: Ensure directories exist
           file:
-            path: "~/{{ item }}"
+            path: "~/{{ item.value }}"
             state: directory
-          loop:
-            - desktop
-            - downloads
-            - templates
-            - public
-            - notes
-            - music
-            - pictures
-            - videos
+          loop: "{{ user_directories }}"
         - name: Add user directories config
           copy:
             content: |
@@ -116,15 +116,9 @@
               # Format is XDG_xxx_DIR="$HOME/yyy", where yyy is a shell-escaped
               # homedir-relative path, or XDG_xxx_DIR="/yyy", where /yyy is an
               # absolute path. No other format is supported.
-
-              XDG_DESKTOP_DIR="$HOME/desktop"
-              XDG_DOWNLOAD_DIR="$HOME/downloads"
-              XDG_TEMPLATES_DIR="$HOME/templates"
-              XDG_PUBLICSHARE_DIR="$HOME/public"
-              XDG_DOCUMENTS_DIR="$HOME/notes"
-              XDG_MUSIC_DIR="$HOME/music"
-              XDG_PICTURES_DIR="$HOME/pictures"
-              XDG_VIDEOS_DIR="$HOME/videos"
+              {% for dir in user_directories %}
+              {{ dir.name }}="$HOME/{{ dir.value }}"
+              {% endfor %}
             dest: ~/.config/user-dirs.dirs
 
   roles:
