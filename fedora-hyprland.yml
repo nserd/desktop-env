@@ -46,7 +46,7 @@
       fail:
         msg: GNOME environment detected. You need to switch to TTY to continue
       when: lookup('ansible.builtin.env', 'XDG_CURRENT_DESKTOP') == 'GNOME'
-  
+
     - name: DNS
       block:
         - name: Disable systemd-resolved
@@ -91,7 +91,7 @@
         state: present
         disable_gpg_check: true
       become: true
-    
+
     - name: Setup user directories
       copy:
         content: |
@@ -147,6 +147,6 @@
       dnf:
         name: "{{ item }}"
         state: present
-      loop: "{{ additional_packages }}"
+      loop: "{{ fedora_packages.additional }}"
       become: true
       tags: [additional-packages]

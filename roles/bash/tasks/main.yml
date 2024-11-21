@@ -29,4 +29,4 @@
 - name: Copy aliases
   template:
     src: files/.bashrc.d/bash_aliases
-    dest: "{{ bashrc_dir }}/bash_aliases"
+    dest: "{{ bashrc_user_dir }}/bash_aliases"
