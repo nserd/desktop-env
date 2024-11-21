@@ -1,4 +1,5 @@
 default_flatpak_packages:
+  - com.github.tchx84.Flatseal
   - io.typora.Typora
   - org.gnome.World.PikaBackup
   - org.telegram.desktop
