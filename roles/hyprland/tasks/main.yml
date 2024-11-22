@@ -13,18 +13,5 @@
       - hypridle.conf
 
 - name: Install hyprshot
-  vars: 
-    version: main
-  get_url:
-    url: "https://raw.githubusercontent.com/Gustash/hyprshot/{{ version }}/hyprshot"
-    dest: /usr/local/bin/hyprshot
-    mode: u=rwx,g=rx,o=rx
-  become: true
-
-- name: Ensure hypridle service started and enabled
-  systemd_service:
-    name: hypridle
-    scope: user
-    state: started
-    enabled: true
-  when: not ansible_check_mode
+  include_tasks:
+    file: hyprshot.yml

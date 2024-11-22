@@ -1,0 +1,17 @@
+- name: Download hyprshot binary
+  get_url:
+    url: "https://raw.githubusercontent.com/Gustash/hyprshot/{{ hyprshot_version }}/hyprshot"
+    dest: /usr/local/bin/hyprshot
+    mode: u=rwx,g=rx,o=rx
+  become: true
+
+- name: Ensure screenshots dir exist
+  file:
+    path: "{{ hyprshot_screenshots_dir }}"
+    state: directory
+
+- name: Add a screenshot cleanup task
+  cron:
+    name: Hyprshot screenshots cleanup
+    special_time: daily
+    job: "find {{ hyprshot_screenshots_dir }} -name '*_hyprshot.png' -mtime +{{ hyprshot_screenshots_retention_days }} -delete"

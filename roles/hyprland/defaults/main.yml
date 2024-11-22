@@ -1,1 +1,3 @@
 hyprshot_version: 1.3.0
+hyprshot_screenshots_retention_days: 14
+hyprshot_screenshots_dir: ~/pictures/screenshots
