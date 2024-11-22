@@ -10,11 +10,17 @@ def get_exec_command(command):
         return output.decode('utf-8').strip()
     except (subprocess.CalledProcessError, UnicodeDecodeError) as e:
         return None
+    except Exception as e:
+        print(f"Unexpected error: {type(e).__name__}, {e}")
+        return None
 
 def set_exec_command(command, content):
     try:
         subprocess.run(command, input=content.encode('utf-8', errors='replace'), shell=True, check=True)
     except subprocess.CalledProcessError as e:
+        pass
+    except Exception as e:
+        print(f"Unexpected error: {type(e).__name__}, {e}")
         pass
 
 def sync_clipboards(type, clipboard):
