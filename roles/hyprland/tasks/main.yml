@@ -6,11 +6,13 @@
       - hyprland-devel
       - hyprlock
       - hypridle
+      - hyprpaper
     config_dir_name: hypr
     config_files:
       - hyprland.conf
       - hyprlock.conf
       - hypridle.conf
+      - hyprpaper.conf
 
 - name: Install hyprshot
   include_tasks:
