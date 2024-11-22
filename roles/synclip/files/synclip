@@ -2,7 +2,7 @@
 # {{ description }}
 # Requires: xclip, wl-clipboard
 
-import subprocess, time
+import subprocess, time, os
 
 def get_exec_command(command):
     try:
@@ -23,8 +23,6 @@ def sync_clipboards(type, clipboard):
     wayland_clipboard = get_exec_command(f"wl-paste {wl_primary_option}")
     x11_clipboard = get_exec_command(f"xclip -o -selection {type}")
 
-    # print(f"[Debug][{type}] c: {clipboard}, cw: {wayland_clipboard}, cx: {x11_clipboard}")
-
     if wayland_clipboard and wayland_clipboard != clipboard:
         set_exec_command(f"xclip -selection {type}", wayland_clipboard)
         clipboard = wayland_clipboard
@@ -37,6 +35,9 @@ def sync_clipboards(type, clipboard):
     return clipboard
 
 def main():
+    if 'WAYLAND_DISPLAY' not in os.environ:
+        raise ValueError(f"WAYLAND_DISPLAY not set: {os.environ}")
+
     refresh_time = 0.2
 
     primary_latest = ''

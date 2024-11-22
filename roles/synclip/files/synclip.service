@@ -5,6 +5,7 @@ Description={{ description }}
 Environment=PYTHONUNBUFFERED=1
 ExecStart={{ script_fullpath }}/synclip
 Restart=on-failure
+RestartSec=10
 
 [Install]
 WantedBy=default.target
