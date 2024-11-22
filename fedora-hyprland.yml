@@ -10,7 +10,7 @@
         - unzip
         - bind-utils
         - cronie
-        - xclip
+        - xclip # for sync wayland and x11 clipboards
         - cargo # for build from source
       additional:
         - bash-completion
