@@ -78,12 +78,6 @@
           loop: "{{ fedora_packages.required }}"
       become: true
 
-    - name: Keychrone fix
-      ansible.builtin.cron:
-        name: "Keychrone fix"
-        job: "echo 0 > /sys/module/hid_apple/parameters/fnmode"
-      become: true
-
     - name: Enable rpmfusion
       dnf:
         name:
