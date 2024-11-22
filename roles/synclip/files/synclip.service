@@ -3,6 +3,7 @@ Description={{ description }}
 
 [Service]
 Environment=PYTHONUNBUFFERED=1
+Environment=SYNCLIP_REFRESH_RATE=0.2
 ExecStart={{ script_fullpath }}/synclip
 Restart=on-failure
 RestartSec=10

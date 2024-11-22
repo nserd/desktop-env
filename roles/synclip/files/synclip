@@ -44,15 +44,14 @@ def main():
     if 'WAYLAND_DISPLAY' not in os.environ:
         raise ValueError(f"WAYLAND_DISPLAY not set: {os.environ}")
 
-    refresh_time = 0.2
-
-    primary_latest = ''
-    clipboard_latest = ''
+    refresh_rate = float(os.environ['SYNCLIP_REFRESH_RATE'])
+    primary_latest = str()
+    clipboard_latest = str()
 
     while True:
         primary_latest = sync_clipboards('primary', primary_latest)
         clipboard_latest = sync_clipboards('clipboard', clipboard_latest)
-        time.sleep(refresh_time)
+        time.sleep(refresh_rate)
 
 if __name__ == "__main__":
     main()
