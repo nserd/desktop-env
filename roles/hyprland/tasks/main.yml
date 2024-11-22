@@ -5,10 +5,12 @@
     packages: 
       - hyprland-devel
       - hyprlock
+      - hypridle
     config_dir_name: hypr
     config_files:
       - hyprland.conf
       - hyprlock.conf
+      - hypridle.conf
 
 - name: Install hyprshot
   vars: 
@@ -18,3 +20,11 @@
     dest: /usr/local/bin/hyprshot
     mode: u=rwx,g=rx,o=rx
   become: true
+
+- name: Ensure hypridle service started and enabled
+  systemd_service:
+    name: hypridle
+    scope: user
+    state: started
+    enabled: true
+  when: not ansible_check_mode
