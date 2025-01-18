@@ -31,5 +31,5 @@ function git-branch {
 
 # Custom env
 export PS1="\[\e[1;94m\]\u\[\e[0m\]\[\e[37m\][\[\e[0m\]\w\[\e[33m\]\$(git-branch)\[\e[37m\]]\[\e[0m\]> "
-export PATH="$PATH:~/.local/myscripts/bin"
-export KUBECONFIG="~/.kube/kind-config"
+export PATH="$PATH:/home/{{ user }}/.local/myscripts/bin"
+export KUBECONFIG="/home/{{ user }}/.kube/kind-config"

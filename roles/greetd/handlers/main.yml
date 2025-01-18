@@ -1,4 +1,4 @@
-- name: Restart service
+- name: Restart greetd service
   systemd_service:
     name: greetd
     state: restarted

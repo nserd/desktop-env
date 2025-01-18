@@ -49,4 +49,4 @@
     src: files/config.toml
     dest: /etc/greetd/config.toml
   become: true
-  notify: Restart service
+  notify: Restart greetd service

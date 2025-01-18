@@ -95,6 +95,9 @@
           - { name: XDG_TEMPLATES_DIR, value: templates }
           - { name: XDG_DOCUMENTS_DIR, value: notes }
           - { name: XDG_PICTURES_DIR, value: pictures }
+          - { name: XDG_PUBLICSHARE_DIR, value: null }
+          - { name: XDG_MUSIC_DIR, value: null }
+          - { name: XDG_VIDEOS_DIR, value: null }
       block:
         - name: Ensure directories exist
           file:

@@ -7,8 +7,10 @@
       dest: "{{ script_fullpath }}/synclip"
       mode: u=rwx,g=rx,o=
 
-  - name: Add unit file
-    template:
-      src: "files/synclip.service"
-      dest: "~/.config/systemd/user/synclip.service"
-  notify: Restart service
+- name: Add symlink on wrapper
+  file:
+    src: "{{ script_fullpath }}/synclip"
+    dest: "/usr/bin/synclip"
+    state: link
+  become: true
+  when: not ansible_check_mode
