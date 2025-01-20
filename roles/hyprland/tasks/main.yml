@@ -1,4 +1,9 @@
 ---
+- name: Enable Fedora Copr for faster updates and additional packages
+  community.general.copr:
+    name: solopasha/hyprland
+  become: true
+
 - include_role:
     name: 0-common
   vars:
