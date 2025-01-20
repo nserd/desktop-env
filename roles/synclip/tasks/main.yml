@@ -7,7 +7,7 @@
       dest: "{{ script_fullpath }}/synclip"
       mode: u=rwx,g=rx,o=
 
-- name: Add symlink on wrapper
+- name: Add symlink
   file:
     src: "{{ script_fullpath }}/synclip"
     dest: "/usr/bin/synclip"
