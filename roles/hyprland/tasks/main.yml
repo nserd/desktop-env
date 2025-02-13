@@ -12,6 +12,7 @@
       - hyprlock
       - hypridle
       - hyprpaper
+      - hyprsunset
     config_dir_name: hypr
     config_files:
       - hyprland.conf
@@ -22,3 +23,13 @@
 - name: Install hyprshot
   include_tasks:
     file: hyprshot.yml
+
+- name: Setup hyprsunset
+  vars:
+    temperature: 5000
+    time: [21, 9]
+  cron:
+    name: Hyprsunset
+    minute: "0"
+    hour: "{{ time[0] }}"
+    job: "WAYLAND_DISPLAY=wayland-1 XDG_RUNTIME_DIR=/run/user/$(id -u) timeout {{ (time[0] - time[1]) | abs }}h hyprsunset -t {{ temperature }}"
