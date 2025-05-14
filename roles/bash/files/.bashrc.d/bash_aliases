@@ -16,4 +16,6 @@ alias ssh='env TERM=xterm ssh'
 alias erase="printf '\E[H\E[3J'"
 alias tree='tree --dirsfirst'
 alias pwgen='pwgen 20'
-##################################
+
+### HYPRLAND #####################
+alias hyprlog="cat $XDG_RUNTIME_DIR/hypr/$(ls -t $XDG_RUNTIME_DIR/hypr/ | head -n 1)/hyprland.log"
