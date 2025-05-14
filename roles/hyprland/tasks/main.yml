@@ -24,12 +24,20 @@
   include_tasks:
     file: hyprshot.yml
 
-- name: Setup hyprsunset
+- name: Install hyprsunset
   vars:
-    temperature: 5000
-    time: [21, 9]
-  cron:
-    name: Hyprsunset
-    minute: "0"
-    hour: "{{ time[0] }}"
-    job: "WAYLAND_DISPLAY=wayland-1 XDG_RUNTIME_DIR=/run/user/$(id -u) timeout {{ (time[0] - time[1]) | abs }}h hyprsunset -t {{ temperature }}"
+    script_path: /home/{{ user }}/.local/bin
+  block:
+  - name: Add hyprsunset wrapper
+    template:
+      src: files/hyprsunsetwrapper
+      dest: "{{ script_path }}/hyprsunsetwrapper"
+      mode: u=rwx,g=rx,o=
+
+  - name: Add symlink
+    file:
+      src: "{{ script_path }}/hyprsunsetwrapper"
+      dest: "/usr/bin/hyprsunsetwrapper"
+      state: link
+    become: true
+    when: not ansible_check_mode
